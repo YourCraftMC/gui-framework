@@ -15,7 +15,7 @@ public class Example {
     void demo() {
         // 预先设计一些使用案例
 
-        GUI<ChestInventory> gui = ChestGUI.create(ChestType.THREE_ROW);
+        GUI<ChestInventory> gui = ChestGUI.create(ChestGUI.Type.THREE_ROW);
         gui.title("Hello World"); // 设置GUI的标题
 
         // Component 是相对独立与GUI的一个存在，可作为组件置于多个不同的GUI中。
@@ -25,7 +25,7 @@ public class Example {
             ItemStack icon = new ItemStack(Material.DIAMOND);
             icon.setAmount(50);
             return icon;
-        }).handle((player, action, gui) -> {
+        }).handle((player, context) -> {
             // 通过这个方法处理GUI的相关事件
             // 应当提供更多handle方法，以便于快捷处理特定类型的事件
             // 但其余方法都应当基于本方法存在
