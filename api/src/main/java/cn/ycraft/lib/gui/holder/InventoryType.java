@@ -14,6 +14,13 @@ public interface InventoryType<T extends InventoryType<T>> {
     int type();
 
     /**
+     * The legacy type of this inventory holder.
+     *
+     * @return the legacy type
+     */
+    String legacyType();
+
+    /**
      * The row of this inventory holder's display.
      *
      * @return the row
