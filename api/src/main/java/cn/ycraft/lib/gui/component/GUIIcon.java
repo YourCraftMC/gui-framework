@@ -11,12 +11,12 @@ import java.util.function.Supplier;
  */
 public interface GUIIcon extends GUIComponent, Cloneable {
 
-    static GUIIcon of(@NotNull Supplier<ItemStack> item) {
+    static GUIIcon icon(@NotNull Supplier<ItemStack> item) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    static GUIIcon of(@Nullable ItemStack item) {
-        return of(() -> item);
+    static GUIIcon icon(@Nullable ItemStack item) {
+        return icon(() -> item);
     }
 
     /**

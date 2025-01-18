@@ -26,8 +26,8 @@ public interface ContainedFrame extends GUIFrame {
     void add(@NotNull GUIIcon icon, @NotNull GUIIcon... icons);
 
     default void add(@NotNull ItemStack item, @NotNull ItemStack... items) {
-        add(GUIIcon.of(item));
-        Arrays.stream(items).map(GUIIcon::of).forEachOrdered(this::add);
+        add(GUIIcon.icon(item));
+        Arrays.stream(items).map(GUIIcon::icon).forEachOrdered(this::add);
     }
 
     void remove(@NotNull GUIIcon icon);

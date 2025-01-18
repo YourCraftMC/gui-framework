@@ -3,7 +3,7 @@ package cn.ycraft.lib.gui;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.data.GUIStatements;
-import cn.ycraft.lib.gui.draw.PreparedGUIIcon;
+import cn.ycraft.lib.gui.builder.PreparedGUIIcon;
 import cn.ycraft.lib.gui.holder.InventoryWrapper;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import cn.ycraft.lib.gui.slot.impl.AbstractSlotsHolder;

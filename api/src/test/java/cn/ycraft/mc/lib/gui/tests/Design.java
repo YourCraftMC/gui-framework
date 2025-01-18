@@ -4,12 +4,13 @@ import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.button.PaginateButton;
 import cn.ycraft.lib.gui.component.frame.PaginateFrame;
+import cn.ycraft.lib.gui.context.ButtonClickContext;
 import cn.ycraft.lib.gui.slot.GUIPattern;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class Example {
+public class Design {
 
 
     void demo() {
@@ -19,23 +20,24 @@ public class Example {
         gui.title("Hello World"); // 设置GUI的标题
 
         // Component 是相对独立与GUI的一个存在，可作为组件置于多个不同的GUI中。
-        GUIButton button = GUIButton.icon(() -> {
+        GUIButton button = GUIButton.button(() -> {
             // Button 的物品创建不应该涉及到玩家的信息。
             // 如果需要创建包含玩家信息的内容，则API的使用者应当于其他位置提供
             ItemStack icon = new ItemStack(Material.DIAMOND);
             icon.setAmount(50);
             return icon;
-        }).handle((player, context) -> {
+        }).handle(ButtonClickContext.class, (player, context) -> {
             // 通过这个方法处理GUI的相关事件
             // 应当提供更多handle方法，以便于快捷处理特定类型的事件
             // 但其余方法都应当基于本方法存在
             // 该方法应当是可堆叠的，即可以多次调用，而后续的调用不会覆盖前面的调用
             // 因此，应当提供一个根方法，以便于覆盖调用
 
-        }).processActions((player, action, gui) -> {
+        }).processActions((player, action) -> {
             // 该方法为最终处理事件的方法
             // 本质是一个 Consumer，且会覆盖先前设定的Consumer实例
-        });
+        }).build();
+
         gui.put(button).at(0, 0); // 将按钮放置在GUI的0,0位置
 
         // PagedArea 是一个分页区域，可以用于展示大量的内容，但是默认需要绑定到一个GUI中。
