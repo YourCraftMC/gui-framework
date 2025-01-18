@@ -1,6 +1,5 @@
 package cn.ycraft.lib.gui.holder;
 
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +25,7 @@ public interface InventoryWrapper<T extends InventoryType<T>> {
     ItemStack[] contents();
 
     @NotNull
-    @Immutable
+    @Unmodifiable
     Map<Integer, ItemStack> items();
 
     @NotNull
