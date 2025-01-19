@@ -6,9 +6,7 @@ import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.data.GUIStatements;
 import cn.ycraft.lib.gui.builder.PreparedGUIIcon;
 import cn.ycraft.lib.gui.holder.InventoryWrapper;
-import cn.ycraft.lib.gui.slot.GUISlot;
 import cn.ycraft.lib.gui.builder.PreparedGUISlots;
-import cn.ycraft.lib.gui.slot.impl.AbstractSlotsHolder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface GUI<W extends InventoryWrapper<?>> extends Cloneable {
