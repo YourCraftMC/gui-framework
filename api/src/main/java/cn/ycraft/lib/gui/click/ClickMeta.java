@@ -3,8 +3,8 @@ package cn.ycraft.lib.gui.click;
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.InventoryPool;
 import cn.ycraft.lib.gui.click.type.ClickType;
-import cn.ycraft.lib.gui.component.GUIComponent;
 import cn.ycraft.lib.gui.component.GUIFrame;
+import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.holder.InventoryType;
 import cn.ycraft.lib.gui.holder.InventoryWrapper;
 import cn.ycraft.lib.gui.slot.GUISlot;
@@ -17,7 +17,7 @@ public interface ClickMeta<T> {
     ClickMeta<InventoryWrapper> INVENTORY = ClickMeta.of(InventoryWrapper.class);
     ClickMeta<cn.ycraft.lib.gui.GUI> GUI = ClickMeta.of(GUI.class);
     ClickMeta<GUIFrame> FRAME = ClickMeta.of(GUIFrame.class);
-    ClickMeta<GUIComponent> COMPONENT = ClickMeta.of(GUIComponent.class);
+    ClickMeta<GUIIcon> ICON = ClickMeta.of(GUIIcon.class);
     ClickMeta<Player> PLAYER = ClickMeta.of(Player.class);
     ClickMeta<Integer> CLICK_MODE = ClickMeta.of(Integer.class);
     ClickMeta<ClickType> CLICK_TYPE = ClickMeta.of(ClickType.class);

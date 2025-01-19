@@ -1,6 +1,7 @@
 package cn.ycraft.lib.gui.holder;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 public interface InventoryType<T extends InventoryType<T>> {
@@ -14,11 +15,12 @@ public interface InventoryType<T extends InventoryType<T>> {
     int type();
 
     /**
-     * The legacy type of this inventory holder.
+     * The legacy packet type of this inventory holder
+     * <br>See <a href="https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Inventory?direction=prev&oldid=2765360">wiki/Inventory(old)</a>
      *
-     * @return the legacy type
+     * @return the legacy type, NULL if not exists
      */
-    String legacyType();
+    @Nullable String legacyType();
 
     /**
      * The row of this inventory holder's display.

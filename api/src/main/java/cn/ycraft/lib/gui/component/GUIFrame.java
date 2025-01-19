@@ -7,9 +7,19 @@ import org.jetbrains.annotations.UnmodifiableView;
 import java.util.Set;
 
 
-public interface GUIFrame extends GUIComponent {
+public interface GUIFrame {
 
+    /**
+     * The parent GUI of this frame belongs to.
+     *
+     * @return parent GUI
+     */
     @NotNull GUI<?> parent();
+
+    /**
+     * Draw this frame to the parent GUI
+     */
+    void draw();
 
     /**
      * All slots that this area will display
@@ -22,5 +32,6 @@ public interface GUIFrame extends GUIComponent {
     default int displaySize() {
         return displaySlots().size();
     }
+
 
 }

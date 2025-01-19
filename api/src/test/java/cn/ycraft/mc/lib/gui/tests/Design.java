@@ -75,6 +75,8 @@ public class Design {
         // 其余用法同理
         gui.put(button).at(pattern, 'W').commit(); // 将按钮放置在pattern对应的W所在的位置
 
+        gui.remove().at(5, 5).commit(); // 移除 5,5 所在的位置的按钮
+
     }
 
 }

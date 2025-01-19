@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /**
  * Represents an icon in a GUI.
  */
-public interface GUIIcon extends GUIComponent, Cloneable {
+public interface GUIIcon extends Cloneable {
 
     static GUIIcon icon(@NotNull Supplier<ItemStack> item) {
         throw new UnsupportedOperationException("Not supported yet.");
