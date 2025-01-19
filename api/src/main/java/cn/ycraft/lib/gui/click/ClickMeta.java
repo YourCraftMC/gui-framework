@@ -1,6 +1,7 @@
 package cn.ycraft.lib.gui.click;
 
 import cn.ycraft.lib.gui.GUI;
+import cn.ycraft.lib.gui.InventoryPool;
 import cn.ycraft.lib.gui.click.type.ClickType;
 import cn.ycraft.lib.gui.component.GUIComponent;
 import cn.ycraft.lib.gui.component.GUIFrame;
@@ -11,7 +12,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public interface ClickMeta<T> {
-    ClickMeta<InventoryType> INVENTORY_POOL = ClickMeta.of(InventoryType.class);
+    ClickMeta<InventoryPool> INVENTORY_POOL = ClickMeta.of(InventoryPool.class);
+    ClickMeta<InventoryType> INVENTORY_TYPE = ClickMeta.of(InventoryType.class);
     ClickMeta<InventoryWrapper> INVENTORY = ClickMeta.of(InventoryWrapper.class);
     ClickMeta<cn.ycraft.lib.gui.GUI> GUI = ClickMeta.of(GUI.class);
     ClickMeta<GUIFrame> FRAME = ClickMeta.of(GUIFrame.class);
