@@ -18,7 +18,7 @@ public class ChestInventory implements InventoryType<ChestInventory> {
 
     @Override
     public String legacyType() {
-        return "Chest";
+        return "minecraft:container";
     }
 
     @Override
