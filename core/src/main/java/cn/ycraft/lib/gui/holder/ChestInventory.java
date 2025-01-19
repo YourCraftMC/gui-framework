@@ -1,13 +1,16 @@
 package cn.ycraft.lib.gui.holder;
 
+import cn.ycraft.lib.gui.InventoryPoolImpl;
 import com.github.retrooper.packetevents.PacketEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 public class ChestInventory implements InventoryType<ChestInventory> {
+    private final InventoryPoolImpl pool;
     private final int row;
 
-    public ChestInventory(@Range(from = 1, to = 6) int row) {
+    public ChestInventory(InventoryPoolImpl pool, @Range(from = 1, to = 6) int row) {
+        this.pool = pool;
         this.row = row;
     }
 
@@ -41,6 +44,9 @@ public class ChestInventory implements InventoryType<ChestInventory> {
 
     @Override
     public @NotNull InventoryWrapper<ChestInventory> create() {
-        return new ChestInventoryWrapper(windowId.nextId(), this);
+        int id = pool.nextWindowId();
+        ChestInventoryWrapper inventoryWrapper = new ChestInventoryWrapper(id, this);
+        pool.addInventory(id, inventoryWrapper);
+        return inventoryWrapper;
     }
 }

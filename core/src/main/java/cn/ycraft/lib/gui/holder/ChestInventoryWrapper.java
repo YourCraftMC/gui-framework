@@ -3,11 +3,7 @@ package cn.ycraft.lib.gui.holder;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.PacketEventsAPI;
 import com.github.retrooper.packetevents.protocol.player.User;
-import com.github.retrooper.packetevents.wrapper.PacketWrapper;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerCloseWindow;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerOpenWindow;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetSlot;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWindowItems;
+import com.github.retrooper.packetevents.wrapper.play.server.*;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -137,16 +133,28 @@ public class ChestInventoryWrapper implements InventoryWrapper<ChestInventory> {
         return new WrapperPlayServerWindowItems(this.id, incrementStateId(), items, null);
     }
 
+    public WrapperPlayServerSetSlot setSlot(int index) {
+        return setSlot(index, this.items[index]);
+    }
+
     public WrapperPlayServerSetSlot setSlot(int index, ItemStack item) {
         return new WrapperPlayServerSetSlot(this.id, incrementStateId(), index, SpigotConversionUtil.fromBukkitItemStack(item));
     }
 
-    public static WrapperPlayServerSetSlot setCursor(int windowId, ItemStack item) {
-        return new WrapperPlayServerSetSlot(-1, 0, 0, SpigotConversionUtil.fromBukkitItemStack(item));
+    public static WrapperPlayServerSetCursorItem setCursor() {
+        return new WrapperPlayServerSetCursorItem(com.github.retrooper.packetevents.protocol.item.ItemStack.EMPTY);
+    }
+
+    public WrapperPlayServerSetSlot legacyCursorItem() {
+        return new WrapperPlayServerSetSlot(-1, 0, 0, com.github.retrooper.packetevents.protocol.item.ItemStack.EMPTY);
     }
 
     // 1.9+
     public static WrapperPlayServerSetSlot setPlayerInventory(int index, ItemStack item) {
         return new WrapperPlayServerSetSlot(-2, 0, index, SpigotConversionUtil.fromBukkitItemStack(item));
+    }
+
+    public void removeViewer(UUID uuid) {
+        viewers.removeIf(player -> player.getUniqueId().equals(uuid));
     }
 }

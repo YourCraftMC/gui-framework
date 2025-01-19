@@ -1,5 +1,7 @@
 package cn.ycraft.lib.gui.test;
 
+import cn.ycraft.lib.gui.InventoryPool;
+import cn.ycraft.lib.gui.InventoryPoolImpl;
 import cn.ycraft.lib.gui.holder.ChestInventory;
 import cn.ycraft.lib.gui.holder.InventoryWrapper;
 import com.github.retrooper.packetevents.PacketEvents;
@@ -11,14 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * 2025/1/17<br>
- * gui-framework<br>
- *
- * @author huanmeng_qwq
- */
 public class GuiTestPlugin extends JavaPlugin implements Listener {
+
+    private InventoryPool pool;
+
     @Override
     public void onLoad() {
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
@@ -29,12 +29,13 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         PacketEvents.getAPI().init();
 
-        getServer().getPluginManager().registerEvents(this, this);
+        this.pool = new InventoryPoolImpl(PacketEvents.getAPI());
     }
 
     @Override
     public void onDisable() {
         PacketEvents.getAPI().terminate();
+        this.pool.closeAll();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            InventoryWrapper<ChestInventory> inventoryWrapper = new ChestInventory(6).create();
+            @NotNull InventoryWrapper<?> inventoryWrapper = pool.chest(6).create();
             inventoryWrapper.set(0, new ItemStack(Material.STONE));
             inventoryWrapper.set(1, new ItemStack(Material.STONE));
             inventoryWrapper.set(2, new ItemStack(Material.STONE));
