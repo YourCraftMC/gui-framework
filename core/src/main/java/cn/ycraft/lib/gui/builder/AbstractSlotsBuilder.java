@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractSlotsBuilder<R, SELF extends PreparedGUISlots<R, SELF>> implements PreparedGUISlots<R, SELF> {
+public abstract class AbstractSlotsBuilder<R, SELF extends AbstractSlotsBuilder<R, SELF>> implements PreparedGUISlots<R, SELF> {
     private final List<GUISlot> slots = new ArrayList<>();
     private final List<GUISlot> excluded = new ArrayList<>();
 
@@ -23,14 +23,14 @@ public abstract class AbstractSlotsBuilder<R, SELF extends PreparedGUISlots<R, S
     @Override
     public <T extends GUISlot> SELF at(@NotNull List<T> slots) {
         this.slots.addAll(slots);
-        return getSelf();
+        return getThis();
     }
 
     @Override
     public <T extends GUISlot> SELF exclude(@NotNull List<T> slots) {
         this.excluded.addAll(slots);
-        return getSelf();
+        return getThis();
     }
 
-    public abstract SELF getSelf();
+    public abstract @NotNull SELF getThis();
 }

@@ -12,16 +12,17 @@ import java.util.TreeSet;
 
 public interface PreparedGUISlots<R, SELF extends PreparedGUISlots<R, SELF>> extends PreparedGUIBuilder<R, SELF> {
 
+
+    @NotNull List<GUISlot> slots();
+
+    @NotNull List<GUISlot> excluded();
+
     default SortedSet<Integer> indexes(@NotNull GUI<?> gui) {
         SortedSet<Integer> v = new TreeSet<>();
         slots().stream().map(s -> s.indexOf(gui)).forEach(v::add);
         excluded().stream().map(s -> s.indexOf(gui)).forEach(v::remove);
         return v;
     }
-
-    @NotNull List<GUISlot> slots();
-
-    @NotNull List<GUISlot> excluded();
 
     <T extends GUISlot> SELF at(@NotNull List<T> slots);
 

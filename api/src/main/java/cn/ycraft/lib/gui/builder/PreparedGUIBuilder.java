@@ -6,4 +6,6 @@ public interface PreparedGUIBuilder<BACKWARDS, SELF extends PreparedGUIBuilder<B
 
     @NotNull BACKWARDS commit();
 
+    @NotNull SELF getThis();
+
 }

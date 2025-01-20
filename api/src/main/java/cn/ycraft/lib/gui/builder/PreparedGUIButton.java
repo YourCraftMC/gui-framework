@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public interface PreparedGUIButton<R, SELF extends PreparedGUIButton<R, SELF>>
-        extends PreparedGUISlots<R, PreparedGUIButton<R, SELF>> {
+public interface PreparedGUIButton<BACKWARDS, SELF extends PreparedGUIButton<BACKWARDS, SELF>>
+        extends PreparedGUISlots<BACKWARDS, SELF> {
 
     @NotNull GUIButton build();
 

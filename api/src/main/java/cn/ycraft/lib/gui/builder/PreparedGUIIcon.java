@@ -5,14 +5,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;
 
-public interface PreparedGUIIcon<R, S extends PreparedGUIIcon<R, S>>
-        extends PreparedGUISlots<R, PreparedGUIIcon<R, S>> {
+public interface PreparedGUIIcon<BACKWARDS, SELF extends PreparedGUIIcon<BACKWARDS, SELF>>
+        extends PreparedGUISlots<BACKWARDS, SELF> {
 
     GUIIcon build();
 
-    S item(Supplier<ItemStack> supplier);
+    SELF item(Supplier<ItemStack> supplier);
 
-    default S item(ItemStack item) {
+    default SELF item(ItemStack item) {
         return item(() -> item);
     }
 
