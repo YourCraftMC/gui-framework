@@ -1,4 +1,4 @@
-package cn.ycraft.mc.lib.gui.unused;
+package cn.ycraft.lib.gui.unused;
 
 
 public enum InventoryTypes {

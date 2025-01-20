@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Statements for GUI instance, used for storing temporary data in a GUI.
+ * Statements for GUI instance, used for storing temporary data in a single GUI.
+ * <br> Those statements are shared in a same GUI instance.
  */
 public class GUIStatements {
 

@@ -21,7 +21,6 @@ public interface GUIButton extends GUIIcon {
         return button(() -> item);
     }
 
-
     void trigger(@NotNull Player player, @NotNull ButtonContext context);
 
 }

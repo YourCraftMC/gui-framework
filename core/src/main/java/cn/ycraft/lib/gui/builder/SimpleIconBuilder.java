@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public abstract class AbstractIconBuilder<R>
-        extends AbstractSlotsBuilder<R, AbstractIconBuilder<R>>
-        implements PreparedGUIIcon<R, AbstractIconBuilder<R>> {
+public abstract class SimpleIconBuilder<R>
+        extends AbstractSlotsBuilder<R, SimpleIconBuilder<R>>
+        implements PreparedGUIIcon<R, SimpleIconBuilder<R>> {
     private @NotNull Supplier<ItemStack> item;
 
-    public AbstractIconBuilder() {
+    public SimpleIconBuilder() {
         this(() -> null);
     }
 
-    public AbstractIconBuilder(@NotNull Supplier<ItemStack> item) {
+    public SimpleIconBuilder(@NotNull Supplier<ItemStack> item) {
         this.item = item;
     }
 
@@ -26,12 +26,12 @@ public abstract class AbstractIconBuilder<R>
     }
 
     @Override
-    public AbstractIconBuilder<R> item(Supplier<ItemStack> supplier) {
+    public SimpleIconBuilder<R> item(Supplier<ItemStack> supplier) {
         this.item = supplier;
         return getThis();
     }
 
-    public @NotNull AbstractIconBuilder<R> getThis() {
+    public @NotNull SimpleIconBuilder<R> getThis() {
         return this;
     }
 

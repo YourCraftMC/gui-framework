@@ -1,4 +1,4 @@
-package cn.ycraft.lib.gui.test;
+package cn.ycraft.plugin.gui.test;
 
 import cn.ycraft.lib.gui.ChestGui;
 import cn.ycraft.lib.gui.GUI;

@@ -32,5 +32,4 @@ public abstract class AbstractSlotsBuilder<R, SELF extends AbstractSlotsBuilder<
         return getThis();
     }
 
-    public abstract @NotNull SELF getThis();
 }

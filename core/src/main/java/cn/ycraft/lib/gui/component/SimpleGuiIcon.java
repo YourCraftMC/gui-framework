@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public class SimpleGuiIcon implements GUIIcon {
-    private Supplier<ItemStack> item;
+    protected Supplier<ItemStack> item;
 
     public SimpleGuiIcon(Supplier<ItemStack> item) {
         this.item = item;
@@ -21,5 +21,16 @@ public class SimpleGuiIcon implements GUIIcon {
     @Override
     public void item(@NotNull Supplier<@Nullable ItemStack> supplier) {
         this.item = supplier;
+    }
+
+    @Override
+    public SimpleGuiIcon clone() {
+        try {
+            SimpleGuiIcon clone = (SimpleGuiIcon) super.clone();
+            clone.item = this.item;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package cn.ycraft.lib.gui.click;
+package cn.ycraft.lib.gui.unused.click;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

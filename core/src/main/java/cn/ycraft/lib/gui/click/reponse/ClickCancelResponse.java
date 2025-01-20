@@ -6,7 +6,6 @@ import cn.ycraft.lib.gui.click.ClickResponse;
 import cn.ycraft.lib.gui.click.InternalClickMeta;
 import cn.ycraft.lib.gui.click.type.ClickType;
 import cn.ycraft.lib.gui.holder.ChestInventoryWrapper;
-import cn.ycraft.lib.gui.holder.InventoryWrapper;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetSlot;
 import org.bukkit.Bukkit;

@@ -1,8 +1,8 @@
-package cn.ycraft.lib.gui.click;
+package cn.ycraft.lib.gui.unused.click;
 
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.InventoryPool;
-import cn.ycraft.lib.gui.click.type.ClickType;
+import cn.ycraft.lib.gui.unused.click.type.ClickType;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.holder.InventoryType;

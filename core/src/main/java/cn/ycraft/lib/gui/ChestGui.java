@@ -16,7 +16,7 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
     private final GUIStatements flags = new GUIStatements();
     private final ChestInventoryWrapper wrapper;
 
-    private final List<GUIFrame> areas = new ArrayList<>();
+    private final List<GUIFrame> frames = new ArrayList<>();
     private final SortedMap<Integer, GUIIcon> icons = new TreeMap<>();
     private final SortedMap<Integer, GUIButton> buttons = new TreeMap<>();
 
@@ -44,8 +44,8 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
     }
 
     @Override
-    public List<GUIFrame> areas() {
-        return Collections.unmodifiableList(this.areas);
+    public List<GUIFrame> frames() {
+        return Collections.unmodifiableList(this.frames);
     }
 
     @Override
@@ -70,8 +70,8 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
     }
 
     @Override
-    public void update(@NotNull GUIFrame area) {
-        area.draw();
+    public void update(@NotNull GUIFrame frame) {
+        frame.draw();
     }
 
     @Override
@@ -81,15 +81,14 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
 
     @Override
     public PreparedGUIIcon<GUI<ChestInventoryWrapper>, ?> icon() {
-        return new AbstractIconBuilder<GUI<ChestInventoryWrapper>>() {
+        return new SimpleIconBuilder<GUI<ChestInventoryWrapper>>() {
             @Override
             public @NotNull GUI<ChestInventoryWrapper> commit() {
                 GUIIcon icon = build();
                 for (Integer index : indexes(ChestGui.this)) {
-                    //todo clone
-                    ChestGui.this.icons.put(index, icon);
-                    updateItems();
+                    ChestGui.this.icons.put(index, icon.clone());
                 }
+                updateItems();
                 return ChestGui.this;
             }
         };
@@ -97,14 +96,14 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
 
     @Override
     public PreparedGUIButton<GUI<ChestInventoryWrapper>, ?> button() {
-        return new AbstractButtonBuilder<GUI<ChestInventoryWrapper>>() {
+        return new SimpleButtonBuilder<GUI<ChestInventoryWrapper>>() {
             @Override
             public @NotNull GUI<ChestInventoryWrapper> commit() {
                 @NotNull GUIButton button = build();
                 for (Integer index : indexes(ChestGui.this)) {
                     ChestGui.this.buttons.put(index, button);
-                    updateItems();
                 }
+                updateItems();
                 return ChestGui.this;
             }
         };
@@ -115,10 +114,11 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
         return new SimpleSlotsBuilder<GUI<ChestInventoryWrapper>>() {
             @Override
             public @NotNull GUI<ChestInventoryWrapper> commit() {
-                for (Integer index : indexes(ChestGui.this)) {
+                for (int index : indexes(ChestGui.this)) {
                     ChestGui.this.icons.remove(index);
-                    updateItems();
+                    ChestGui.this.frames.forEach(frame -> frames.remove(index));
                 }
+                updateItems();
                 return ChestGui.this;
             }
         };
@@ -126,23 +126,21 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
 
     @Override
     public void remove(@NotNull GUIIcon icon) {
-        this.icons.entrySet().removeIf(entry -> entry.getValue() == icon);
-
-        //todo frame#remove
+        this.icons.entrySet().removeIf(entry -> entry.getValue().equals(icon));
     }
 
     @Override
-    public void remove(@NotNull GUIFrame area) {
-        this.areas.remove(area);
+    public void remove(@NotNull GUIFrame frame) {
+        this.frames.remove(frame);
     }
 
     @Override
-    public void put(GUIFrame area) {
-        this.areas.add(area);
+    public void put(@NotNull GUIFrame area) {
+        this.frames.add(area);
     }
 
     @Override
-    public <T extends GUIIcon> PreparedGUISlots<GUI<ChestInventoryWrapper>, ?> put(T icon) {
+    public <T extends GUIIcon> PreparedGUISlots<GUI<ChestInventoryWrapper>, ?> put(@NotNull T icon) {
         return new SimpleSlotsBuilder<GUI<ChestInventoryWrapper>>() {
             @Override
             public @NotNull GUI<ChestInventoryWrapper> commit() {

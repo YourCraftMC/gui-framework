@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public interface PreparedGUISlots<R, SELF extends PreparedGUISlots<R, SELF>> extends PreparedGUIBuilder<R, SELF> {
+public interface PreparedGUISlots<R, SELF extends PreparedGUISlots<R, SELF>> extends BaseBuilder<R, SELF> {
 
 
     @NotNull List<GUISlot> slots();

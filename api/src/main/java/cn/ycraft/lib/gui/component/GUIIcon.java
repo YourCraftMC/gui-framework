@@ -41,4 +41,7 @@ public interface GUIIcon extends Cloneable {
         item(() -> item);
     }
 
+
+    GUIIcon clone();
+
 }

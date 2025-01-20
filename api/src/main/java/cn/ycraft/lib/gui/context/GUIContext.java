@@ -5,6 +5,14 @@ import org.jetbrains.annotations.NotNull;
 
 public interface GUIContext {
 
-    @NotNull GUI<?> source();
+    /**
+     * @return The original event that triggered this context.
+     */
+    @NotNull Object event();
+
+    /**
+     * @return The GUI that this context is for.
+     */
+    @NotNull GUI<?> gui();
 
 }

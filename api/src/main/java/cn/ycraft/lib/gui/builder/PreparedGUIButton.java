@@ -1,6 +1,7 @@
 package cn.ycraft.lib.gui.builder;
 
 import cn.ycraft.lib.gui.component.GUIButton;
+import cn.ycraft.lib.gui.context.ButtonClickContext;
 import cn.ycraft.lib.gui.context.ButtonContext;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,17 @@ public interface PreparedGUIButton<BACKWARDS, SELF extends PreparedGUIButton<BAC
 
     <C extends ButtonContext> SELF handle(@NotNull Class<C> contextType, @NotNull BiConsumer<Player, C> handler);
 
-    SELF processActions(@NotNull BiConsumer<Player, ButtonContext> handler);
+    default SELF handleClick(@NotNull BiConsumer<Player, ButtonClickContext> handler) {
+        return handle(ButtonClickContext.class, handler);
+    }
+
+    /**
+     * Process all the action contexts
+     * <br> will REPLACE the previous combined handler
+     *
+     * @param handler The handler
+     * @return The builder
+     */
+    SELF process(@NotNull BiConsumer<Player, ButtonContext> handler);
 
 }

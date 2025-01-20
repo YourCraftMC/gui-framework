@@ -8,6 +8,17 @@
 A efficiency & easy-to-use packet-based gui framework for minecraft servers,
 multi-platform supported for Bukkit, Spigot, ~~BungeeCord~~ and ~~Velocity~~.
 
+## Structure
+
+```text
+api, core
+ | packet
+ | | bukkit
+ | | bungeecord
+ | | velocity
+ | legacy
+ | | bukkit
+```
 
 ## Open Source License
 

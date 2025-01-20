@@ -10,22 +10,22 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public abstract class AbstractButtonBuilder<R> extends AbstractSlotsBuilder<R, AbstractButtonBuilder<R>>
-        implements PreparedGUIButton<R, AbstractButtonBuilder<R>> {
+public abstract class SimpleButtonBuilder<R> extends AbstractSlotsBuilder<R, SimpleButtonBuilder<R>>
+        implements PreparedGUIButton<R, SimpleButtonBuilder<R>> {
     private @NotNull Supplier<ItemStack> item;
     private @NotNull BiConsumer<Player, ButtonContext> handle = (p, c) -> {
     };
 
-    public AbstractButtonBuilder() {
+    public SimpleButtonBuilder() {
         this(() -> null);
     }
 
-    public AbstractButtonBuilder(@NotNull Supplier<ItemStack> item) {
+    public SimpleButtonBuilder(@NotNull Supplier<ItemStack> item) {
         this.item = item;
     }
 
     @Override
-    public @NotNull AbstractButtonBuilder<R> getThis() {
+    public @NotNull SimpleButtonBuilder<R> getThis() {
         return this;
     }
 
@@ -35,14 +35,14 @@ public abstract class AbstractButtonBuilder<R> extends AbstractSlotsBuilder<R, A
     }
 
     @Override
-    public AbstractButtonBuilder<R> item(Supplier<ItemStack> supplier) {
+    public SimpleButtonBuilder<R> item(Supplier<ItemStack> supplier) {
         this.item = supplier;
         return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <C extends ButtonContext> AbstractButtonBuilder<R> handle(@NotNull Class<C> contextType, @NotNull BiConsumer<Player, C> handler) {
+    public <C extends ButtonContext> SimpleButtonBuilder<R> handle(@NotNull Class<C> contextType, @NotNull BiConsumer<Player, C> handler) {
         this.handle = this.handle.andThen((p, c) -> {
             if (contextType.isInstance(c)) {
                 handler.accept(p, (C) c);
@@ -52,7 +52,7 @@ public abstract class AbstractButtonBuilder<R> extends AbstractSlotsBuilder<R, A
     }
 
     @Override
-    public AbstractButtonBuilder<R> processActions(@NotNull BiConsumer<Player, ButtonContext> handler) {
+    public SimpleButtonBuilder<R> process(@NotNull BiConsumer<Player, ButtonContext> handler) {
         this.handle = handler;
         return this;
     }

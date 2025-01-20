@@ -1,6 +1,6 @@
+main: cn.ycraft.plugin.gui.test.GuiTestPlugin
 name: gui-framework-example
 version: 1.0.0
-main: cn.ycraft.lib.gui.test.GuiTestPlugin
 api-version: '1.13'
 commands:
   gui:

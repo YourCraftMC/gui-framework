@@ -1,4 +1,4 @@
-package cn.ycraft.lib.gui.click;
+package cn.ycraft.lib.gui.unused.click;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

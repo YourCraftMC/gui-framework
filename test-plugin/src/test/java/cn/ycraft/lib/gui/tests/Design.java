@@ -1,4 +1,4 @@
-package cn.ycraft.mc.lib.gui.tests;
+package cn.ycraft.lib.gui.tests;
 
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.component.GUIButton;
@@ -33,7 +33,7 @@ public class Design {
             // 该方法应当是可堆叠的，即可以多次调用，而后续的调用不会覆盖前面的调用
             // 因此，应当提供一个根方法，以便于覆盖调用
 
-        }).processActions((player, action) -> {
+        }).process((player, action) -> {
             // 该方法为最终处理事件的方法
             // 本质是一个 Consumer，且会覆盖先前设定的Consumer实例
         }).build();
