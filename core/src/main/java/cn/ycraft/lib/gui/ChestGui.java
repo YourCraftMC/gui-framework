@@ -1,6 +1,7 @@
 package cn.ycraft.lib.gui;
 
 import cn.ycraft.lib.gui.builder.*;
+import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.data.GUIStatements;
@@ -17,9 +18,19 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
 
     private final List<GUIFrame> areas = new ArrayList<>();
     private final SortedMap<Integer, GUIIcon> icons = new TreeMap<>();
+    private final SortedMap<Integer, GUIButton> buttons = new TreeMap<>();
 
     public ChestGui(ChestInventoryWrapper wrapper) {
         this.wrapper = wrapper;
+    }
+
+    private void updateItems() {
+        for (Map.Entry<Integer, GUIIcon> entry : this.icons.entrySet()) {
+            this.wrapper.set(entry.getKey(), entry.getValue().item());
+        }
+        for (Map.Entry<Integer, GUIButton> entry : this.buttons.entrySet()) {
+            this.wrapper.set(entry.getKey(), entry.getValue().item());
+        }
     }
 
     @Override
@@ -75,8 +86,9 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
             public @NotNull GUI<ChestInventoryWrapper> commit() {
                 GUIIcon icon = build();
                 for (Integer index : indexes(ChestGui.this)) {
-                    //todo
-//                    ChestGui.this.icons.put(index, icon.clone());
+                    //todo clone
+                    ChestGui.this.icons.put(index, icon);
+                    updateItems();
                 }
                 return ChestGui.this;
             }
@@ -88,6 +100,11 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
         return new AbstractButtonBuilder<GUI<ChestInventoryWrapper>>() {
             @Override
             public @NotNull GUI<ChestInventoryWrapper> commit() {
+                @NotNull GUIButton button = build();
+                for (Integer index : indexes(ChestGui.this)) {
+                    ChestGui.this.buttons.put(index, button);
+                    updateItems();
+                }
                 return ChestGui.this;
             }
         };
@@ -100,6 +117,7 @@ public class ChestGui implements GUI<ChestInventoryWrapper> {
             public @NotNull GUI<ChestInventoryWrapper> commit() {
                 for (Integer index : indexes(ChestGui.this)) {
                     ChestGui.this.icons.remove(index);
+                    updateItems();
                 }
                 return ChestGui.this;
             }
