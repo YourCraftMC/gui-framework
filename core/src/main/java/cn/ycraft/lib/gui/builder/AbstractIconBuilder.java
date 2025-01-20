@@ -13,7 +13,7 @@ public abstract class AbstractIconBuilder<R>
     private @NotNull Supplier<ItemStack> item;
 
     public AbstractIconBuilder() {
-        this(() -> item);
+        this(() -> null);
     }
 
     public AbstractIconBuilder(@NotNull Supplier<ItemStack> item) {
