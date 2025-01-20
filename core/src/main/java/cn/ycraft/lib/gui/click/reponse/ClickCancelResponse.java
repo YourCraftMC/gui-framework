@@ -5,7 +5,7 @@ import cn.ycraft.lib.gui.click.ClickRequest;
 import cn.ycraft.lib.gui.click.ClickResponse;
 import cn.ycraft.lib.gui.click.InternalClickMeta;
 import cn.ycraft.lib.gui.click.type.ClickType;
-import cn.ycraft.lib.gui.holder.ChestInventoryWrapper;
+import cn.ycraft.lib.gui.holder.ChestInventory;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetSlot;
 import org.bukkit.Bukkit;
@@ -63,7 +63,7 @@ public class ClickCancelResponse implements ClickResponse {
     }
 
     private void sendAll(ClickRequest clickRequest) {
-        ChestInventoryWrapper inventory = (ChestInventoryWrapper) clickRequest.meta(ClickMeta.INVENTORY);
+        ChestInventory inventory = (ChestInventory) clickRequest.meta(ClickMeta.INVENTORY);
         User user = clickRequest.meta(InternalClickMeta.USER);
         if (inventory != null && user != null) {
             sendAllItem(inventory, user);
@@ -73,15 +73,15 @@ public class ClickCancelResponse implements ClickResponse {
         }
     }
 
-    private void sendAllItem(ChestInventoryWrapper inventory, User user) {
+    private void sendAllItem(ChestInventory inventory, User user) {
         for (int i = 0; i < inventory.type().size(); i++) {
             WrapperPlayServerSetSlot setSlot = inventory.setSlot(i);
             user.sendPacket(setSlot);
         }
     }
 
-    private void sendCursor(ChestInventoryWrapper inventory, User user) {
-        user.sendPacket(ChestInventoryWrapper.setCursor());
+    private void sendCursor(ChestInventory inventory, User user) {
+        user.sendPacket(ChestInventory.setCursor());
         user.sendPacket(inventory.legacyCursorItem());
     }
 }

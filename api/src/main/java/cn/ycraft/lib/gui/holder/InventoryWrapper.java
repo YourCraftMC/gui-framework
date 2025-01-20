@@ -17,6 +17,8 @@ public interface InventoryWrapper<T extends InventoryType<T>> {
 
     @NotNull T type();
 
+    int windowId();
+
     @NotNull
     @Unmodifiable
     Set<Player> viewers();

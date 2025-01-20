@@ -1,4 +1,6 @@
 package cn.ycraft.lib.gui.context;
 
-public interface GUIClickContext {
+public interface GUIClickContext extends CancellableContext{
+
+
 }

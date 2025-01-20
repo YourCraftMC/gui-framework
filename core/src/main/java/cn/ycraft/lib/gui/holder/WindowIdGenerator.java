@@ -4,7 +4,7 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class WindowId {
+public class WindowIdGenerator {
     // >=1.21.2 var int
     // else byte
     private int MIN_ID = 1;
@@ -13,8 +13,7 @@ public class WindowId {
 
     private final AtomicInteger current;
 
-
-    public WindowId(ServerVersion serverVersion) {
+    public WindowIdGenerator(ServerVersion serverVersion) {
         if (serverVersion.isNewerThanOrEquals(ServerVersion.V_1_21_2)) {
             // var int
             MIN_ID = -2147483648;

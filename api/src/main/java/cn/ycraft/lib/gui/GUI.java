@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public interface GUI<W extends InventoryWrapper<?>> extends Cloneable {
@@ -35,18 +36,30 @@ public interface GUI<W extends InventoryWrapper<?>> extends Cloneable {
      *
      * @return The title of the GUI
      */
-    String title();
+    default String title() {
+        return inventory().title();
+    }
 
     /**
      * Set the title of the GUI
      *
      * @param title The title of the GUI
      */
-    void title(@NotNull String title);
+    default void title(@NotNull String title) {
+        inventory().title(title);
+    }
 
     @NotNull
     default Set<Player> viewers() {
         return inventory().viewers();
+    }
+
+    default boolean isViewer(Player player) {
+        return viewers().contains(player);
+    }
+
+    default boolean isViewer(UUID uuid) {
+        return viewers().stream().anyMatch(player -> player.getUniqueId().equals(uuid));
     }
 
     /**
@@ -71,7 +84,9 @@ public interface GUI<W extends InventoryWrapper<?>> extends Cloneable {
      */
     void close(Player player);
 
-    void closeAll();
+    default void closeAll() {
+        viewers().forEach(this::close);
+    }
 
     /**
      * Update the GUI for the specific {@link GUIIcon}.

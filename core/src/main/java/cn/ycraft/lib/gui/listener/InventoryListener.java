@@ -1,62 +1,55 @@
 package cn.ycraft.lib.gui.listener;
 
-import cn.ycraft.lib.gui.InventoryPoolImpl;
+import cn.ycraft.lib.gui.ChestGUI;
 import cn.ycraft.lib.gui.click.ClickMeta;
-import cn.ycraft.lib.gui.click.GuiClickRequest;
-import cn.ycraft.lib.gui.click.InternalClickMeta;
-import cn.ycraft.lib.gui.click.reponse.ClickCancelResponse;
-import cn.ycraft.lib.gui.holder.ChestInventoryWrapper;
-import cn.ycraft.lib.gui.holder.InventoryWrapper;
-import cn.ycraft.lib.gui.util.PacketUtil;
+import cn.ycraft.lib.gui.context.GUIClickContext;
+import cn.ycraft.lib.gui.holder.ChestInventory;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class InventoryListener extends PacketListenerAbstract {
-    private final InventoryPoolImpl pool;
+    private final ChestGUI gui;
 
-    public InventoryListener(InventoryPoolImpl pool) {
-        this.pool = pool;
+    public InventoryListener(ChestGUI gui) {
+        this.gui = gui;
     }
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
         User user = event.getUser();
-        if (user == null) {
-            return;
-        }
+        if (user == null) return;
+        Player clicker = Bukkit.getPlayer(user.getUUID());
+        if (clicker == null) return;
+
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow clickWindow = new WrapperPlayClientClickWindow(event);
-            InventoryWrapper<?> inventory = pool.getInventory(clickWindow.getWindowId());
-            if (inventory == null) {
-                return;
-            }
-            //todo uuid?
-            //noinspection SuspiciousMethodCalls
-            if (!inventory.viewers().contains(event.getPlayer())) {
-                return;
-            }
+            if (clickWindow.getWindowId() != gui.inventory().windowId()) return; // Not for this GUI.
+            if (!gui.isViewer(clicker)) return; // Not for this user
 
-            GuiClickRequest request = PacketUtil.toRequest(clickWindow);
-            request.setDefault(ClickMeta.INVENTORY_POOL, this.pool);
-            request.setDefault(ClickMeta.INVENTORY, inventory);
-            request.setDefault(InternalClickMeta.PACKET_EVENT, event);
-            request.setDefault(InternalClickMeta.USER, user);
+            GUIClickContext clickContext = new GUIClickContext(gui, user, clickWindow);
+            gui.trigger(clicker, clickContext); // Trigger the click event
 
-            //todo cancel click
-            new ClickCancelResponse().response(request);
+            boolean cancelled = clickContext.isCancelled();
             event.setCancelled(true);
         }
         if (event.getPacketType() == PacketType.Play.Client.CLOSE_WINDOW) {
             WrapperPlayClientCloseWindow closeWindow = new WrapperPlayClientCloseWindow(event);
-            ChestInventoryWrapper inventory = (ChestInventoryWrapper) pool.getInventory(closeWindow.getWindowId());
+            ChestInventory inventory = (ChestInventory) pool.getInventory(closeWindow.getWindowId());
             if (inventory == null) {
                 return;
             }
             inventory.removeViewer(user.getUUID());
         }
+    }
+
+    private void handleClick(@NotNull User user, WrapperPlayClientClickWindow packet) {
+
     }
 }
