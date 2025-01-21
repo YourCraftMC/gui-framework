@@ -49,7 +49,7 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
             gui.button()
                     .item(new ItemStack(Material.DIAMOND))
                     .handleClick((clicker, context) -> {
-                        clicker.getInventory().addItem(new ItemStack(Material.DIAMOND));
+//                        clicker.getInventory().addItem(new ItemStack(Material.DIAMOND));
                     })
                     .at(GUISlot.point(3, 1))
                     .commit();

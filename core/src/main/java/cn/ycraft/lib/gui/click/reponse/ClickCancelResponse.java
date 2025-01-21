@@ -13,6 +13,9 @@ public class ClickCancelResponse {
     public static void response(GUIContext context) {
         if (context instanceof GUIClickContext || context instanceof GUIDropContext) {
             if (context instanceof GUIClickContext) {
+                if (((GUIClickContext) context).isShiftClick()) {
+                    updatePlayerInventory(context);
+                }
                 System.out.println("Click: " + ((GUIClickContext) context).clickType());
             } else {
                 System.out.println("Drop: " + ((GUIDropContext) context).dropType());
@@ -21,10 +24,14 @@ public class ClickCancelResponse {
         } else {
             System.out.println(context);
             sendAll(context);
-            PacketReceiveEvent event = (PacketReceiveEvent) context.event();
-            Player player = event.getPlayer();
-            player.updateInventory();
+            updatePlayerInventory(context);
         }
+    }
+
+    private static void updatePlayerInventory(GUIContext context) {
+        PacketReceiveEvent event = (PacketReceiveEvent) context.event();
+        Player player = event.getPlayer();
+        player.updateInventory();
     }
 
     private static void sendAll(GUIContext context) {
