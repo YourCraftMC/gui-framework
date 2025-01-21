@@ -1,4 +1,4 @@
-package cn.ycraft.lib.gui.unused.click.type;
+package cn.ycraft.lib.gui.slot.type;
 
 public enum ClickType {
     LEFT_CLICK_SLOT,
