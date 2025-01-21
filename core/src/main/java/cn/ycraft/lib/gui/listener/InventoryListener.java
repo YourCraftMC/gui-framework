@@ -1,18 +1,22 @@
 package cn.ycraft.lib.gui.listener;
 
 import cn.ycraft.lib.gui.ChestGUI;
-import cn.ycraft.lib.gui.click.ClickMeta;
+import cn.ycraft.lib.gui.click.reponse.ClickCancelResponse;
+import cn.ycraft.lib.gui.component.GUIButton;
+import cn.ycraft.lib.gui.component.GUIFrame;
+import cn.ycraft.lib.gui.context.CancellableContext;
+import cn.ycraft.lib.gui.context.GUIContext;
+import cn.ycraft.lib.gui.context.SimpleButtonClickContext;
 import cn.ycraft.lib.gui.context.gui.GUIClickContext;
 import cn.ycraft.lib.gui.holder.ChestInventory;
+import cn.ycraft.lib.gui.util.ContextUtil;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class InventoryListener extends PacketListenerAbstract {
     private final ChestGUI gui;
@@ -25,7 +29,7 @@ public class InventoryListener extends PacketListenerAbstract {
     public void onPacketReceive(PacketReceiveEvent event) {
         User user = event.getUser();
         if (user == null) return;
-        Player clicker = Bukkit.getPlayer(user.getUUID());
+        Player clicker = event.getPlayer();
         if (clicker == null) return;
 
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
@@ -33,23 +37,48 @@ public class InventoryListener extends PacketListenerAbstract {
             if (clickWindow.getWindowId() != gui.inventory().windowId()) return; // Not for this GUI.
             if (!gui.isViewer(clicker)) return; // Not for this user
 
-            GUIClickContext clickContext = new GUIClickContext(gui, user, clickWindow);
-            gui.trigger(clicker, clickContext); // Trigger the click event
+            GUIContext guiContext = null;
+            if (ContextUtil.isClickContext(clickWindow)) {
+                GUIClickContext clickContext = ContextUtil.toClickContext(event, gui, clickWindow);
+                guiContext = clickContext;
+                if (clickContext != null) {
+                    // todo if button
+                    GUIButton button = gui.getButton(clickContext.rawSlot());
+                    GUIFrame frame = null; //todo
+                    if (button != null) {
+                        guiContext = new SimpleButtonClickContext(
+                                event, gui, guiContext.rawSlot(), guiContext.inventorySlot(), guiContext.getCursor(),
+                                ((GUIClickContext) guiContext).clickType(), guiContext.rawSlot(), button, frame
+                        );
+                    }
+                }
+            } else if (ContextUtil.isDragContext(clickWindow)) {
+                guiContext = ContextUtil.toDragContext(event, gui, clickWindow);
+            } else if (ContextUtil.isDropContext(clickWindow)) {
+                guiContext = ContextUtil.toDropContext(event, gui, clickWindow);
+            } else if (ContextUtil.isSwapContext(clickWindow)) {
+                guiContext = ContextUtil.toSwapContext(event, gui, clickWindow);
+            } else {
+                guiContext = null;
+                System.out.println("Unknown click type: " + clickWindow.getWindowClickType());
+            }
+            if (guiContext != null) {
+                gui.trigger(clicker, guiContext); // Trigger the click event
+                if (guiContext instanceof CancellableContext && ((CancellableContext) guiContext).isCancelled()) {
+                    ClickCancelResponse.response(guiContext);
+                }
+            }
 
-            boolean cancelled = clickContext.isCancelled();
-            event.setCancelled(true);
+            event.setCancelled(true);// Cancel transfer to bukkit
         }
         if (event.getPacketType() == PacketType.Play.Client.CLOSE_WINDOW) {
             WrapperPlayClientCloseWindow closeWindow = new WrapperPlayClientCloseWindow(event);
-            ChestInventory inventory = (ChestInventory) pool.getInventory(closeWindow.getWindowId());
+            ChestInventory inventory = gui.inventory();
             if (inventory == null) {
                 return;
             }
-            inventory.removeViewer(user.getUUID());
+            inventory._removeViewer(user.getUUID());
+            gui.close(clicker);
         }
-    }
-
-    private void handleClick(@NotNull User user, WrapperPlayClientClickWindow packet) {
-
     }
 }

@@ -41,4 +41,16 @@ public class SimpleGuiButton implements GUIButton {
     public void item(@NotNull Supplier<@Nullable ItemStack> supplier) {
         this.item = supplier;
     }
+
+    @Override
+    public SimpleGuiButton clone() {
+        try {
+            SimpleGuiButton clone = (SimpleGuiButton) super.clone();
+            clone.item = this.item;
+            clone.handler = this.handler;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
+    }
 }

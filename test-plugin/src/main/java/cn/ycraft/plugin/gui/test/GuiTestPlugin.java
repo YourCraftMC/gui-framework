@@ -1,9 +1,7 @@
 package cn.ycraft.plugin.gui.test;
 
 import cn.ycraft.lib.gui.ChestGUI;
-import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.GUIController;
-import cn.ycraft.lib.gui.holder.ChestInventory;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
@@ -42,10 +40,18 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            ChestGUI gui = new ChestGUI(controller, ChestGUI.Rows.ONE); // 后续可以做成builder形式
+            ChestGUI gui = new ChestGUI(controller, ChestGUI.Rows.SIX); // 后续可以做成builder形式
             gui.icon(new ItemStack(Material.STONE))
                     .at(0)
                     .at(GUISlot.point(2, 2))
+                    .commit();
+
+            gui.button()
+                    .item(new ItemStack(Material.DIAMOND))
+                    .handleClick((clicker, context) -> {
+                        clicker.getInventory().addItem(new ItemStack(Material.DIAMOND));
+                    })
+                    .at(GUISlot.point(3, 1))
                     .commit();
             gui.open(player);
         }

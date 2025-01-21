@@ -1,114 +1,54 @@
 package cn.ycraft.lib.gui.util;
 
-import cn.ycraft.lib.gui.click.ClickMeta;
-import cn.ycraft.lib.gui.click.GuiClickRequest;
-import cn.ycraft.lib.gui.click.type.ClickType;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
+import cn.ycraft.lib.gui.holder.InventoryType;
+import com.github.retrooper.packetevents.protocol.item.ItemStack;
+import com.github.retrooper.packetevents.wrapper.play.server.*;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
+import net.kyori.adventure.text.Component;
+
+import java.util.List;
+
 public class PacketUtil {
-    public static GuiClickRequest toRequest(WrapperPlayClientClickWindow p) {
-        GuiClickRequest request = new GuiClickRequest();
-        WrapperPlayClientClickWindow.WindowClickType windowClickType = p.getWindowClickType();
-        int mode = windowClickType == WrapperPlayClientClickWindow.WindowClickType.UNKNOWN ? -1 : windowClickType.ordinal();
-        request.setDefault(ClickMeta.CLICK_MODE, mode);
-        request.setDefault(ClickMeta.CLICK_TYPE, toClickType(p));
-        request.setDefault(ClickMeta.SLOT_NUM, p.getSlot());
-        request.setDefault(ClickMeta.HOT_BAR, p.getButton());
-        return request;
+    public static ItemStack fromItem(org.bukkit.inventory.ItemStack itemStack) {
+        if (itemStack == null) {
+            return ItemStack.EMPTY;
+        }
+        return SpigotConversionUtil.fromBukkitItemStack(itemStack);
     }
 
-    public static ClickType toClickType(WrapperPlayClientClickWindow p) {
-        WrapperPlayClientClickWindow.WindowClickType mode = p.getWindowClickType();
-        int button = p.getButton();
-        int slot = p.getSlot();
-        boolean special = slot == -999;
-        switch (mode) {
-            case PICKUP: {
-                if (button == 0) {
-                    return special ? ClickType.LEFT_CLICK_OUTSIDE_DROP_ALL : ClickType.LEFT_CLICK_SLOT;
-                } else if (button == 1) {
-                    return special ? ClickType.RIGHT_CLICK_OUTSIDE_DROP_SINGLE : ClickType.RIGHT_CLICK_SLOT;
-                }
-                return ClickType.UNKNOWN;
-            }
-            case QUICK_MOVE: {
-                if (button == 0) {
-                    return ClickType.SHIFT_LEFT;
-                } else if (button == 1) {
-                    return ClickType.SHIFT_RIGHT;
-                }
-                return ClickType.UNKNOWN;
-            }
-            case SWAP: {
-                if (button >= 0 && button <= 8) {
-                    return ClickType.valueOf("HOR_BAR_" + (button + 1));
-                }
-                if (button == 40) {
-                    return ClickType.SWAP_OFFHAND;
-                }
-                return special ? ClickType.UNKNOWN : ClickType.HOR_BAR_UNDEFINED;
-            }
-            case CLONE: {
-                if (button == 2) {
-                    return ClickType.MIDDLE_CLICK;
-                }
-                return ClickType.UNKNOWN;
-            }
-            case THROW: {
-                if (button == 0) {
-                    return ClickType.DROP;
-                } else if (button == 1) {
-                    return ClickType.CTRL_DROP;
-                }
-                return ClickType.UNKNOWN;
-            }
-            case QUICK_CRAFT: {
-                return getDragType(special, button);
-            }
-            case PICKUP_ALL: {
-                if (button == 0) {
-                    return ClickType.DOUBLE_CLICK;
-                } else if (button == 1) {
-                    return ClickType.PICKUP_ALL;
-                }
-            }
-            default: {
-                return ClickType.UNKNOWN;
-            }
-        }
+    public static WrapperPlayServerSetCursorItem setCursor(ItemStack itemStack) {
+        return new WrapperPlayServerSetCursorItem(itemStack == null ? ItemStack.EMPTY : itemStack);
     }
 
-    public static ClickType getDragType(boolean special, int button) {
-        switch (button) {
-            case 0: {
-                return special ? ClickType.START_LEFT_DRAG : ClickType.UNKNOWN;
-            }
-            case 1: {
-                return special ? ClickType.UNKNOWN : ClickType.ADD_LEFT_SLOT_DRAG;
-            }
-            case 2: {
-                return special ? ClickType.END_LEFT_DRAG : ClickType.UNKNOWN;
-            }
-            case 4: {
-                return special ? ClickType.START_RIGHT_DRAG : ClickType.UNKNOWN;
-            }
-            case 5: {
-                return special ? ClickType.UNKNOWN : ClickType.ADD_RIGHT_SLOT_DRAG;
-            }
-            case 6: {
-                return special ? ClickType.END_RIGHT_DRAG : ClickType.UNKNOWN;
-            }
-            case 8: {
-                return special ? ClickType.START_MIDDLE_DRAG : ClickType.UNKNOWN;
-            }
-            case 9: {
-                return special ? ClickType.UNKNOWN : ClickType.ADD_MIDDLE_SLOT_DRAG;
-            }
-            case 10: {
-                return special ? ClickType.END_MIDDLE_DRAG : ClickType.UNKNOWN;
-            }
-            default: {
-                return ClickType.UNKNOWN;
-            }
-        }
+    public static WrapperPlayServerSetSlot legacyCursorItem(ItemStack itemStack) {
+        return new WrapperPlayServerSetSlot(-1, 0, 0, itemStack);
     }
+
+    public static WrapperPlayServerOpenWindow openWindowPacket(int windowId, InventoryType<?> type, String title) {
+        WrapperPlayServerOpenWindow openWindow = new WrapperPlayServerOpenWindow(
+                windowId, type.type(),
+                Component.text(title), type.size(),
+                true, 0
+        );
+        openWindow.setLegacyType(type.legacyType());
+        return openWindow;
+    }
+
+    public static WrapperPlayServerCloseWindow closeWindowPacket(int windowId) {
+        return new WrapperPlayServerCloseWindow(windowId);
+    }
+
+    public static WrapperPlayServerWindowItems windowItemsPacket(int windowId, int state, List<ItemStack> items, ItemStack cursor) {
+        return new WrapperPlayServerWindowItems(windowId, state, items, cursor == null ? ItemStack.EMPTY : cursor);
+    }
+
+    public static WrapperPlayServerSetSlot setSlot(int windowId, int state, int index, ItemStack item) {
+        return new WrapperPlayServerSetSlot(windowId, state, index, item == null ? ItemStack.EMPTY : item);
+    }
+
+    // 1.9+
+    public static WrapperPlayServerSetSlot setPlayerInventory(int index, ItemStack item) {
+        return new WrapperPlayServerSetSlot(-2, 0, index, item == null ? ItemStack.EMPTY : item);
+    }
+
 }

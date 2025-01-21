@@ -1,11 +1,9 @@
 package cn.ycraft.lib.gui.holder;
 
+import cn.ycraft.lib.gui.util.PacketUtil;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.PacketEventsAPI;
 import com.github.retrooper.packetevents.protocol.player.User;
-import com.github.retrooper.packetevents.wrapper.play.server.*;
-import io.github.retrooper.packetevents.util.SpigotConversionUtil;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -94,22 +92,29 @@ public class ChestInventory implements InventoryWrapper<ChestInventoryType> {
     @Override
     public void updateView(@NotNull Player viewer) {
         if (viewers.contains(viewer)) {
-            getUser(viewer).sendPacket(windowItemsPacket());
+            getUser(viewer).sendPacket(PacketUtil.windowItemsPacket(
+                    this.id, incrementStateId(),
+                    Arrays.stream(items).map(PacketUtil::fromItem).collect(Collectors.toList()), null
+            ));
         }
     }
 
     @Override
     public void open(@NotNull Player viewer) {
         User user = getUser(viewer);
-        user.sendPacket(openWindowPacket());
-        getUser(viewer).sendPacket(windowItemsPacket());
+        user.sendPacket(PacketUtil.openWindowPacket(this.id, type, title));
+        user.sendPacket(PacketUtil.windowItemsPacket(
+                this.id, incrementStateId(),
+                Arrays.stream(items).map(PacketUtil::fromItem).collect(Collectors.toList()), null
+        ));
         viewers.add(viewer);
     }
 
     @Override
     public void close(@NotNull Player viewer) {
-        getUser(viewer).sendPacket(closeWindowPacket());
-        viewers.remove(viewer);
+        if (viewers.remove(viewer)) {
+            getUser(viewer).sendPacket(PacketUtil.closeWindowPacket(this.id));
+        }
     }
 
     private User getUser(@NotNull Player viewer) {
@@ -121,49 +126,7 @@ public class ChestInventory implements InventoryWrapper<ChestInventoryType> {
         return this.state;
     }
 
-    public WrapperPlayServerOpenWindow openWindowPacket() {
-        WrapperPlayServerOpenWindow openWindow = new WrapperPlayServerOpenWindow(
-                this.id, this.type.type(),
-                Component.text(this.title), this.type.size(),
-                true, 0
-        );
-        openWindow.setLegacyType(this.type.legacyType());
-        return openWindow;
-    }
-
-    public WrapperPlayServerCloseWindow closeWindowPacket() {
-        return new WrapperPlayServerCloseWindow(this.id);
-    }
-
-    public WrapperPlayServerWindowItems windowItemsPacket() {
-        List<com.github.retrooper.packetevents.protocol.item.ItemStack> items = Arrays.stream(this.items)
-                .map(SpigotConversionUtil::fromBukkitItemStack)
-                .collect(Collectors.toList());
-        return new WrapperPlayServerWindowItems(this.id, incrementStateId(), items, null);
-    }
-
-    public WrapperPlayServerSetSlot setSlot(int index) {
-        return setSlot(index, this.items[index]);
-    }
-
-    public WrapperPlayServerSetSlot setSlot(int index, ItemStack item) {
-        return new WrapperPlayServerSetSlot(this.id, incrementStateId(), index, SpigotConversionUtil.fromBukkitItemStack(item));
-    }
-
-    public static WrapperPlayServerSetCursorItem setCursor() {
-        return new WrapperPlayServerSetCursorItem(com.github.retrooper.packetevents.protocol.item.ItemStack.EMPTY);
-    }
-
-    public WrapperPlayServerSetSlot legacyCursorItem() {
-        return new WrapperPlayServerSetSlot(-1, 0, 0, com.github.retrooper.packetevents.protocol.item.ItemStack.EMPTY);
-    }
-
-    // 1.9+
-    public static WrapperPlayServerSetSlot setPlayerInventory(int index, ItemStack item) {
-        return new WrapperPlayServerSetSlot(-2, 0, index, SpigotConversionUtil.fromBukkitItemStack(item));
-    }
-
-    public void removeViewer(UUID uuid) {
+    public void _removeViewer(UUID uuid) {
         viewers.removeIf(player -> player.getUniqueId().equals(uuid));
     }
 }

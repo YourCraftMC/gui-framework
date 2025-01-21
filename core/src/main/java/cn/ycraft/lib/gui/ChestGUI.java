@@ -5,6 +5,7 @@ import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.context.GUIContext;
+import cn.ycraft.lib.gui.context.button.ButtonContext;
 import cn.ycraft.lib.gui.data.GUIStatements;
 import cn.ycraft.lib.gui.holder.ChestInventory;
 import cn.ycraft.lib.gui.holder.ChestInventoryType;
@@ -22,6 +23,7 @@ public class ChestGUI implements GUI<ChestInventory> {
         FOUR(4), FIVE(5), SIX(6);
 
         private final int row;
+
         private final ChestInventoryType type;
 
         Rows(int row) {
@@ -36,22 +38,22 @@ public class ChestGUI implements GUI<ChestInventory> {
         public ChestInventoryType type() {
             return this.type;
         }
+
     }
 
     private final @NotNull GUIController controller;
-    private final @NotNull ChestInventory inventory;
 
+    private final @NotNull ChestInventory inventory;
     private final GUIStatements flags = new GUIStatements();
+
     private final List<GUIFrame> frames = new ArrayList<>();
     private final SortedMap<Integer, GUIIcon> icons = new TreeMap<>();
     private final SortedMap<Integer, GUIButton> buttons = new TreeMap<>();
-
     private InventoryListener listener = null;
 
     public ChestGUI(@NotNull GUIController controller, @NotNull Rows type) {
         this.controller = controller;
         this.inventory = type.type.create();
-        this.listener = new InventoryListener(this);
     }
 
     private void updateItems() {
@@ -66,14 +68,18 @@ public class ChestGUI implements GUI<ChestInventory> {
     private void activeListeners() {
         if (this.listener == null) {
             this.listener = new InventoryListener(this);
+            this.controller.packetEvents().getEventManager().registerListener(this.listener);
         }
-        this.controller.packetEvents().getEventManager().registerListener(this.listener);
     }
 
     private void deactiveListeners() {
         if (this.listener == null) return;
         this.controller.packetEvents().getEventManager().unregisterListener(this.listener);
         this.listener = null;
+    }
+
+    public GUIButton getButton(int index) {
+        return buttons.get(index);
     }
 
     @Override
@@ -125,7 +131,11 @@ public class ChestGUI implements GUI<ChestInventory> {
 
     @Override
     public void trigger(@NotNull Player viewer, @NotNull GUIContext context) {
-
+        for (Map.Entry<Integer, GUIButton> entry : buttons.entrySet()) {
+            if (context instanceof ButtonContext) {
+                entry.getValue().trigger(viewer, (ButtonContext) context);
+            }
+        }
     }
 
     @Override
