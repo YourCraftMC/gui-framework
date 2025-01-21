@@ -1,7 +1,7 @@
 package cn.ycraft.lib.gui.component;
 
 import cn.ycraft.lib.gui.builder.PreparedGUIButton;
-import cn.ycraft.lib.gui.context.ButtonContext;
+import cn.ycraft.lib.gui.context.button.ButtonContext;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

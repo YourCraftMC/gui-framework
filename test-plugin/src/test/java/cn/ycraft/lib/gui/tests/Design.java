@@ -4,7 +4,7 @@ import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.button.PaginateButton;
 import cn.ycraft.lib.gui.component.frame.PaginateFrame;
-import cn.ycraft.lib.gui.context.ButtonClickContext;
+import cn.ycraft.lib.gui.context.button.ButtonClickContext;
 import cn.ycraft.lib.gui.slot.GUIPattern;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import org.bukkit.Material;

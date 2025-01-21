@@ -2,7 +2,7 @@ package cn.ycraft.lib.gui.listener;
 
 import cn.ycraft.lib.gui.ChestGUI;
 import cn.ycraft.lib.gui.click.ClickMeta;
-import cn.ycraft.lib.gui.context.GUIClickContext;
+import cn.ycraft.lib.gui.context.gui.GUIClickContext;
 import cn.ycraft.lib.gui.holder.ChestInventory;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;

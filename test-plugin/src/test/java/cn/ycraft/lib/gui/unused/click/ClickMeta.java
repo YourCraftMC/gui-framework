@@ -1,7 +1,6 @@
 package cn.ycraft.lib.gui.unused.click;
 
 import cn.ycraft.lib.gui.GUI;
-import cn.ycraft.lib.gui.slot.type.ClickType;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.holder.InventoryType;
@@ -19,7 +18,7 @@ public interface ClickMeta<T> {
     ClickMeta<GUIIcon> ICON = ClickMeta.of(GUIIcon.class);
     ClickMeta<Player> PLAYER = ClickMeta.of(Player.class);
     ClickMeta<Integer> CLICK_MODE = ClickMeta.of(Integer.class);
-    ClickMeta<ClickType> CLICK_TYPE = ClickMeta.of(ClickType.class);
+    ClickMeta<GUIClickType> CLICK_TYPE = ClickMeta.of(GUIClickType.class);
     ClickMeta<GUISlot> SLOT = ClickMeta.of(GUISlot.class);
     ClickMeta<Integer> SLOT_NUM = ClickMeta.of(Integer.class);
     ClickMeta<Integer> HOT_BAR = ClickMeta.of(Integer.class);
