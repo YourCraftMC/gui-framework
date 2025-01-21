@@ -11,8 +11,8 @@ public class SimpleGUIClickContext extends SimpleGUIContext implements GUIClickC
     private final int slot;
     private boolean cancelled = true;
 
-    public SimpleGUIClickContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor, ClickType clickType, int slot) {
-        super(event, gui, rawSlot, inventorySlot, cursor);
+    public SimpleGUIClickContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, ClickType clickType, int slot) {
+        super(event, gui, rawSlot, cursor);
         this.clickType = clickType;
         this.slot = slot;
     }

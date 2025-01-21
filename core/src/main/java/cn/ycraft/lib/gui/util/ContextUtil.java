@@ -48,7 +48,7 @@ public class ContextUtil {
         if (clickType == null) {
             return null;
         }
-        return new SimpleGUIClickContext(event, gui, slot, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), clickType, slot);
+        return new SimpleGUIClickContext(event, gui, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), clickType, slot);
     }
 
     public static GUIDragContext toDragContext(PacketReceiveEvent event, GUI<?> gui, WrapperPlayClientClickWindow p) {
@@ -59,7 +59,7 @@ public class ContextUtil {
         if (dragType == null || dragState == null) {
             return null;
         }
-        return new SimpleGUIDragContext(event, gui, slot, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), dragType, dragState);
+        return new SimpleGUIDragContext(event, gui, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), dragType, dragState);
     }
 
     public static GUIDropContext toDropContext(PacketReceiveEvent event, GUI<?> gui, WrapperPlayClientClickWindow p) {
@@ -69,7 +69,7 @@ public class ContextUtil {
         if (dropType == null) {
             return null;
         }
-        return new SimpleGUIDropContext(event, gui, slot, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), dropType);
+        return new SimpleGUIDropContext(event, gui, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), dropType);
     }
 
     public static GUISwapContext toSwapContext(PacketReceiveEvent event, GUI<?> gui, WrapperPlayClientClickWindow p) {
@@ -80,7 +80,7 @@ public class ContextUtil {
         if (swapType == null) {
             return null;
         }
-        return new SimpleGUISwapContext(event, gui, slot, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), slot, button);
+        return new SimpleGUISwapContext(event, gui, slot, SpigotConversionUtil.toBukkitItemStack(p.getCarriedItemStack()), slot, button);
     }
 
     public static GUIClickContext.ClickType toClickType(WrapperPlayClientClickWindow p) {

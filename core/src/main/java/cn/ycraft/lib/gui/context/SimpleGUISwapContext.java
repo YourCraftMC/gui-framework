@@ -11,8 +11,8 @@ public class SimpleGUISwapContext extends SimpleGUIContext implements GUISwapCon
     private final int hotbarSlot;
     private boolean cancelled = true;
 
-    public SimpleGUISwapContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor, int slot, int hotbarSlot) {
-        super(event, gui, rawSlot, inventorySlot, cursor);
+    public SimpleGUISwapContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, int slot, int hotbarSlot) {
+        super(event, gui, rawSlot, cursor);
         this.slot = slot;
         this.hotbarSlot = hotbarSlot;
     }

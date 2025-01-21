@@ -10,8 +10,8 @@ public class SimpleGUIDropContext extends SimpleGUIContext implements GUIDropCon
     private final DropType dropType;
     private boolean cancelled = true;
 
-    public SimpleGUIDropContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor, DropType dropType) {
-        super(event, gui, rawSlot, inventorySlot, cursor);
+    public SimpleGUIDropContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, DropType dropType) {
+        super(event, gui, rawSlot, cursor);
         this.dropType = dropType;
     }
 

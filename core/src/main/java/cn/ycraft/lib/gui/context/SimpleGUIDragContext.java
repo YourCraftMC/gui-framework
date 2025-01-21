@@ -11,8 +11,8 @@ public class SimpleGUIDragContext extends SimpleGUIContext implements GUIDragCon
     private final DragState dragState;
     private boolean cancelled = true;
 
-    public SimpleGUIDragContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor, DragType dragType, DragState dragState) {
-        super(event, gui, rawSlot, inventorySlot, cursor);
+    public SimpleGUIDragContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, DragType dragType, DragState dragState) {
+        super(event, gui, rawSlot, cursor);
         this.dragType = dragType;
         this.dragState = dragState;
     }

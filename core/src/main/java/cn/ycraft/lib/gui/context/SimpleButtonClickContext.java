@@ -13,8 +13,8 @@ public class SimpleButtonClickContext extends SimpleGUIClickContext implements B
     private final GUIButton button;
     private final GUIFrame frame;
 
-    public SimpleButtonClickContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor, ClickType clickType, int slot, GUIButton button, GUIFrame frame) {
-        super(event, gui, rawSlot, inventorySlot, cursor, clickType, slot);
+    public SimpleButtonClickContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, ClickType clickType, int slot, GUIButton button, GUIFrame frame) {
+        super(event, gui, rawSlot, cursor, clickType, slot);
         this.button = button;
         this.frame = frame;
     }

@@ -47,7 +47,7 @@ public class InventoryListener extends PacketListenerAbstract {
                     GUIFrame frame = null; //todo
                     if (button != null) {
                         guiContext = new SimpleButtonClickContext(
-                                event, gui, guiContext.rawSlot(), guiContext.inventorySlot(), guiContext.getCursor(),
+                                event, gui, guiContext.rawSlot(), guiContext.getCursor(),
                                 ((GUIClickContext) guiContext).clickType(), guiContext.rawSlot(), button, frame
                         );
                     }

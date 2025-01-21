@@ -1,7 +1,6 @@
 package cn.ycraft.lib.gui.context;
 
 import cn.ycraft.lib.gui.GUI;
-import cn.ycraft.lib.gui.util.ContextUtil;
 import cn.ycraft.lib.gui.util.PacketUtil;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import org.bukkit.inventory.ItemStack;
@@ -15,12 +14,23 @@ public class SimpleGUIContext implements GUIContext {
     private final int inventorySlot;
     private ItemStack cursor;
 
-    public SimpleGUIContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, int inventorySlot, ItemStack cursor) {
+    public SimpleGUIContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor) {
         this.event = event;
         this.gui = gui;
         this.rawSlot = rawSlot;
-        this.inventorySlot = inventorySlot;
+        this.inventorySlot = convertSlot(rawSlot);
         this.cursor = cursor;
+    }
+
+    public final int convertSlot(int rawSlot) {
+        int numInTop = type().size();
+        if (rawSlot < numInTop) {
+            return rawSlot;
+        }
+        int slot = rawSlot - numInTop;
+        if (slot >= 27) slot -= 27;
+        else slot += 9;
+        return slot;
     }
 
     @Override
