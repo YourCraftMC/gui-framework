@@ -31,6 +31,7 @@ public interface GUIClickContext extends GUIContext, CancellableContext {
          * Double click, used for collecting items.
          */
         DOUBLE_CLICK,
+        PICKUP_ALL,
         /**
          * Middle click, only defined for creative players in non-player inventories.
          */
