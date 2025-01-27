@@ -2,7 +2,6 @@ package cn.ycraft.lib.gui.context;
 
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.context.gui.GUISwapContext;
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Range;
 
@@ -11,7 +10,7 @@ public class SimpleGUISwapContext extends SimpleGUIContext implements GUISwapCon
     private final int hotbarSlot;
     private boolean cancelled = true;
 
-    public SimpleGUISwapContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, int slot, int hotbarSlot) {
+    public SimpleGUISwapContext(Object event, GUI<?> gui, int rawSlot, ItemStack cursor, int slot, int hotbarSlot) {
         super(event, gui, rawSlot, cursor);
         this.slot = slot;
         this.hotbarSlot = hotbarSlot;

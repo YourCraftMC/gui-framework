@@ -1,10 +1,12 @@
 package cn.ycraft.lib.gui.tests;
 
+import cn.ycraft.lib.gui.ChestGUI;
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.button.PaginateButton;
 import cn.ycraft.lib.gui.component.frame.PaginateFrame;
 import cn.ycraft.lib.gui.context.button.ButtonClickContext;
+import cn.ycraft.lib.gui.holder.ChestInventory;
 import cn.ycraft.lib.gui.slot.GUIPattern;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import org.bukkit.Material;
@@ -16,7 +18,7 @@ public class Design {
     void demo() {
         // 预先设计一些使用案例
 
-        GUI<ChestInventory> gui = ChestGUI.create(ChestGUI.Type.THREE_ROW);
+        GUI<ChestInventory> gui = ChestGUI.create(ChestGUI.Rows.THREE);
         gui.title("Hello World"); // 设置GUI的标题
 
         // Component 是相对独立与GUI的一个存在，可作为组件置于多个不同的GUI中。

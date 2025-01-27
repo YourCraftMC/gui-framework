@@ -1,20 +1,18 @@
 package cn.ycraft.lib.gui.context;
 
 import cn.ycraft.lib.gui.GUI;
-import cn.ycraft.lib.gui.util.PacketUtil;
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SimpleGUIContext implements GUIContext {
-    private final PacketReceiveEvent event;
+    private final Object event;
     private final GUI<?> gui;
     private final int rawSlot;
     private final int inventorySlot;
     private ItemStack cursor;
 
-    public SimpleGUIContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor) {
+    public SimpleGUIContext(Object event, GUI<?> gui, int rawSlot, ItemStack cursor) {
         this.event = event;
         this.gui = gui;
         this.rawSlot = rawSlot;
@@ -61,7 +59,7 @@ public class SimpleGUIContext implements GUIContext {
     @Override
     public void setCursor(@Nullable ItemStack item) {
         this.cursor = item;
-        event.getUser().sendPacket(PacketUtil.setCursor(PacketUtil.fromItem(item)));
-        event.getUser().sendPacket(PacketUtil.legacyCursorItem(PacketUtil.fromItem(item)));
+//todo        event.getUser().sendPacket(PacketUtil.setCursor(PacketUtil.fromItem(item)));
+//        event.getUser().sendPacket(PacketUtil.legacyCursorItem(PacketUtil.fromItem(item)));
     }
 }

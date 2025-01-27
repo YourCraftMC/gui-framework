@@ -121,6 +121,7 @@ public class ChestGUI implements GUI<ChestInventory> {
     @Override
     public void update(@NotNull GUIIcon icon) {
         //todo
+        updateItems();
         inventory.updateView();
     }
 

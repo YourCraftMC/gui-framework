@@ -2,7 +2,6 @@ package cn.ycraft.lib.gui.context;
 
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.context.gui.GUIDragContext;
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,7 @@ public class SimpleGUIDragContext extends SimpleGUIContext implements GUIDragCon
     private final DragState dragState;
     private boolean cancelled = true;
 
-    public SimpleGUIDragContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, DragType dragType, DragState dragState) {
+    public SimpleGUIDragContext(Object event, GUI<?> gui, int rawSlot, ItemStack cursor, DragType dragType, DragState dragState) {
         super(event, gui, rawSlot, cursor);
         this.dragType = dragType;
         this.dragState = dragState;

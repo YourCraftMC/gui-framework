@@ -2,7 +2,6 @@ package cn.ycraft.lib.gui.context;
 
 import cn.ycraft.lib.gui.GUI;
 import cn.ycraft.lib.gui.context.gui.GUIClickContext;
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,7 @@ public class SimpleGUIClickContext extends SimpleGUIContext implements GUIClickC
     private final int slot;
     private boolean cancelled = true;
 
-    public SimpleGUIClickContext(PacketReceiveEvent event, GUI<?> gui, int rawSlot, ItemStack cursor, ClickType clickType, int slot) {
+    public SimpleGUIClickContext(Object event, GUI<?> gui, int rawSlot, ItemStack cursor, ClickType clickType, int slot) {
         super(event, gui, rawSlot, cursor);
         this.clickType = clickType;
         this.slot = slot;

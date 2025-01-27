@@ -3,8 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":gui-framework-api"))
-    implementation(project(":gui-framework-core"))
+    implementation(project(":packet:gui-framework-packet-bukkit"))
     implementation("com.github.retrooper:packetevents-spigot:2.7.0")
 }
 
