@@ -7,86 +7,30 @@ import com.github.retrooper.packetevents.protocol.player.User;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ChestInventory implements InventoryWrapper<ChestInventoryType> {
+public class ChestInventory extends AbstractChestInventory<ChestInventoryType> {
 
-    private final ChestInventoryType type;
     private final int id;
 
     private int state;
-    private String title = "Undefined";
-    private ItemStack[] items;
-    private final LinkedHashSet<Player> viewers = new LinkedHashSet<>();
     private final PacketEventsAPI<?> api;
 
     public ChestInventory(@NotNull ChestInventoryType type, int id) {
-        this.type = type;
+        super(type);
         this.id = id;
         this.items = new ItemStack[type.size()];
         // todo api
         this.api = PacketEvents.getAPI();
     }
 
-    @Override
-    public @NotNull ChestInventoryType type() {
-        return this.type;
-    }
 
     @Override
     public int windowId() {
         return id;
-    }
-
-    @Override
-    public @NotNull @Unmodifiable Set<Player> viewers() {
-        return Collections.unmodifiableSet(viewers);
-    }
-
-    @Override
-    public @NotNull ItemStack[] contents() {
-        return this.items;
-    }
-
-    @Override
-    public @NotNull Map<Integer, ItemStack> items() {
-        Map<Integer, ItemStack> map = new HashMap<>();
-        for (int i = 0; i < items.length; i++) {
-            map.put(i, items[i]);
-        }
-        return map;
-    }
-
-    @Override
-    public @NotNull String title() {
-        return this.title;
-    }
-
-    @Override
-    public void title(@NotNull String title) {
-        this.title = title;
-    }
-
-    @Override
-    public void contents(@NotNull ItemStack... contents) {
-        if (contents.length != this.type.size()) {
-            throw new IllegalArgumentException("The length of the contents array must be equal to the size of the inventory");
-        }
-        this.items = contents;
-    }
-
-    @Override
-    public @Nullable ItemStack get(int index) {
-        return this.items[index];
-    }
-
-    @Override
-    public void set(int index, @Nullable ItemStack item) {
-        this.items[index] = item;
     }
 
     @Override
