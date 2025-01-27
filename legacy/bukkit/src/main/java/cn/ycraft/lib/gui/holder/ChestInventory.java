@@ -33,7 +33,9 @@ public class ChestInventory extends AbstractChestInventory<ChestInventoryType> {
     @Override
     public void close(@NotNull Player viewer) {
         if (this.viewers.remove(viewer)) {
-            viewer.closeInventory();
+            if (viewer.getOpenInventory().getTopInventory() == inventory) {
+                viewer.closeInventory();
+            }
         }
     }
 }

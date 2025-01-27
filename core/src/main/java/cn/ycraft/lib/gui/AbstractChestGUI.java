@@ -5,6 +5,8 @@ import cn.ycraft.lib.gui.component.GUIButton;
 import cn.ycraft.lib.gui.component.GUIFrame;
 import cn.ycraft.lib.gui.component.GUIIcon;
 import cn.ycraft.lib.gui.context.GUIContext;
+import cn.ycraft.lib.gui.context.SimpleGUICloseContext;
+import cn.ycraft.lib.gui.context.SimpleGUIOpenContext;
 import cn.ycraft.lib.gui.context.button.ButtonContext;
 import cn.ycraft.lib.gui.data.GUIStatements;
 import cn.ycraft.lib.gui.holder.AbstractChestInventory;
@@ -63,15 +65,19 @@ public abstract class AbstractChestGUI<W extends AbstractChestInventory<?>> impl
 
     @Override
     public void open(Player player) {
+        SimpleGUIOpenContext openContext = new SimpleGUIOpenContext(null, this, -1, null);
+        trigger(player, openContext);
+        if (openContext.isCancelled()) {
+            return;
+        }
         this.inventory.open(player);
-        //todo this.controller.setOpenedGUI(player.getUniqueId(), this);
         activeListeners();
     }
 
     @Override
     public void close(Player player) {
+        trigger(player, new SimpleGUICloseContext(null, this, -1, null));
         this.inventory.close(player);
-//todo        this.controller.removeOpenedGUI(player.getUniqueId());
         if (this.inventory.viewers().isEmpty()) {
             deactiveListeners();
         }

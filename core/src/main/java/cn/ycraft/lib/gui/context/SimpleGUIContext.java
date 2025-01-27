@@ -32,7 +32,7 @@ public class SimpleGUIContext implements GUIContext {
     }
 
     @Override
-    public @NotNull Object event() {
+    public @Nullable Object event() {
         return this.event;
     }
 

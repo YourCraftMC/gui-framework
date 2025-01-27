@@ -60,7 +60,9 @@ public class ChestGUI extends AbstractChestGUI<ChestInventory> {
     @Override
     public void open(Player player) {
         super.open(player);
-        this.controller.setOpenedGUI(player.getUniqueId(), this);
+        if (isViewer(player)) {
+            this.controller.setOpenedGUI(player.getUniqueId(), this);
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface GUIContext {
     /**
      * @return The original event that triggered this context.
      */
-    @NotNull Object event();
+    @Nullable Object event();
 
     /**
      * @return The GUI that this context is for.
