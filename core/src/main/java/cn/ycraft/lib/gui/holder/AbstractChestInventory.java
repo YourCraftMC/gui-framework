@@ -16,6 +16,7 @@ public abstract class AbstractChestInventory<T extends InventoryType<T>> impleme
 
     public AbstractChestInventory(T type) {
         this.type = type;
+        this.items = new ItemStack[type.size()];
     }
 
     @Override

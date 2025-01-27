@@ -53,10 +53,6 @@ public class ChestGUI extends AbstractChestGUI<ChestInventory> {
         this.listener = null;
     }
 
-    public GUIButton getButton(int index) {
-        return buttons.get(index);
-    }
-
     @Override
     public void open(Player player) {
         super.open(player);

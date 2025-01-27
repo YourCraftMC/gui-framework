@@ -3,7 +3,9 @@ package cn.ycraft.lib.gui.holder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ChestInventory extends AbstractChestInventory<ChestInventoryType> {
     private final Inventory inventory;
@@ -25,7 +27,7 @@ public class ChestInventory extends AbstractChestInventory<ChestInventoryType> {
 
     @Override
     public void open(@NotNull Player viewer) {
-        if (this.viewers.contains(viewer)) {
+        if (this.viewers.add(viewer)) {
             viewer.openInventory(inventory);
         }
     }
@@ -37,5 +39,16 @@ public class ChestInventory extends AbstractChestInventory<ChestInventoryType> {
                 viewer.closeInventory();
             }
         }
+    }
+
+    @Override
+    public void updateView() {
+        inventory.setContents(contents());
+    }
+
+    @Override
+    public void set(int index, @Nullable ItemStack item) {
+        super.set(index, item);
+        inventory.setItem(index, item);
     }
 }

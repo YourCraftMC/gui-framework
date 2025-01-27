@@ -3,8 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":packet:gui-framework-packet-bukkit"))
-    implementation("com.github.retrooper:packetevents-spigot:2.7.0")
+    implementation(project(":legacy:gui-framework-legacy-bukkit"))
+//    implementation(project(":packet:gui-framework-packet-bukkit"))
+//    implementation("com.github.retrooper:packetevents-spigot:2.7.0")
 }
 
 tasks.processResources {

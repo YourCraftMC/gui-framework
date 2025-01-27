@@ -177,4 +177,8 @@ public abstract class AbstractChestGUI<W extends AbstractChestInventory<?>> impl
             }
         };
     }
+
+    public GUIButton getButton(int index) {
+        return buttons.get(index);
+    }
 }

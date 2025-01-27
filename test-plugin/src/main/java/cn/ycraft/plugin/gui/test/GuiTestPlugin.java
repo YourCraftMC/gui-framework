@@ -26,7 +26,8 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         PacketEvents.getAPI().init();
-        this.controller = new GUIController(PacketEvents.getAPI());
+//        this.controller = new GUIController(PacketEvents.getAPI());
+        this.controller = new GUIController();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
             gui.button()
                     .item(new ItemStack(Material.DIAMOND))
                     .handleClick((clicker, context) -> {
-//                        clicker.getInventory().addItem(new ItemStack(Material.DIAMOND));
+                        clicker.getInventory().addItem(new ItemStack(Material.DIAMOND));
                     })
                     .at(GUISlot.point(3, 1))
                     .commit();
