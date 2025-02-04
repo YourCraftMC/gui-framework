@@ -26,7 +26,7 @@ public abstract class AbstractChestGUI<W extends AbstractChestInventory<?>> impl
     protected final SortedMap<Integer, GUIIcon> icons = new TreeMap<>();
     protected final SortedMap<Integer, GUIButton> buttons = new TreeMap<>();
 
-    public AbstractChestGUI(W wrapper) {
+    public AbstractChestGUI(@NotNull W wrapper) {
         this.inventory = wrapper;
     }
 
@@ -76,7 +76,9 @@ public abstract class AbstractChestGUI<W extends AbstractChestInventory<?>> impl
 
     @Override
     public void close(Player player) {
-        trigger(player, new SimpleGUICloseContext(null, this, -1, null));
+        if (isViewer(player)) {
+            trigger(player, new SimpleGUICloseContext(null, this));
+        }
         this.inventory.close(player);
         if (this.inventory.viewers().isEmpty()) {
             deactiveListeners();
