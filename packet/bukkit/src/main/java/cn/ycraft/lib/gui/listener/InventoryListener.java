@@ -16,6 +16,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class InventoryListener extends PacketListenerAbstract {
@@ -59,8 +60,7 @@ public class InventoryListener extends PacketListenerAbstract {
             } else if (ContextUtil.isSwapContext(clickWindow)) {
                 guiContext = ContextUtil.toSwapContext(event, gui, clickWindow);
             } else {
-                guiContext = null;
-                System.out.println("Unknown click type: " + clickWindow.getWindowClickType());
+                Bukkit.getLogger().info("Unknown click type: " + clickWindow.getWindowClickType());
             }
             if (guiContext != null) {
                 gui.trigger(clicker, guiContext); // Trigger the click event
@@ -74,7 +74,7 @@ public class InventoryListener extends PacketListenerAbstract {
         if (event.getPacketType() == PacketType.Play.Client.CLOSE_WINDOW) {
             WrapperPlayClientCloseWindow closeWindow = new WrapperPlayClientCloseWindow(event);
             ChestInventory inventory = gui.inventory();
-            if (inventory == null) {
+            if (inventory == null || inventory.windowId() != closeWindow.getWindowId()) {
                 return;
             }
             inventory._removeViewer(user.getUUID());

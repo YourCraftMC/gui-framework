@@ -1,7 +1,9 @@
 package cn.ycraft.plugin.gui.test;
 
+import cn.ycraft.lib.gui.AbstractChestGUI;
 import cn.ycraft.lib.gui.ChestGUI;
 import cn.ycraft.lib.gui.GUIController;
+import cn.ycraft.lib.gui.LegacyGUIController;
 import cn.ycraft.lib.gui.slot.GUISlot;
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
@@ -26,8 +28,8 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         PacketEvents.getAPI().init();
-//        this.controller = new GUIController(PacketEvents.getAPI());
-        this.controller = new GUIController();
+//        this.controller = new PacketGUIController(PacketEvents.getAPI());
+        this.controller = new LegacyGUIController();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class GuiTestPlugin extends JavaPlugin implements Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            ChestGUI gui = new ChestGUI(controller, ChestGUI.Rows.SIX); // 后续可以做成builder形式
+            AbstractChestGUI<?> gui = controller.createChestGUI(ChestGUI.Rows.SIX); // 后续可以做成builder形式
             gui.icon(new ItemStack(Material.STONE))
                     .at(0)
                     .at(GUISlot.point(2, 2))

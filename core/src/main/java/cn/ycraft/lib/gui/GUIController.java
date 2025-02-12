@@ -1,5 +1,6 @@
 package cn.ycraft.lib.gui;
 
+import cn.ycraft.lib.gui.holder.AbstractChestInventoryType;
 import org.bukkit.entity.HumanEntity;
 
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class GUIController {
+public abstract class GUIController<C extends AbstractChestInventoryType<C>> {
     protected final Map<UUID, GUI<?>> openedGUI = new ConcurrentHashMap<>();
 
     public GUI<?> getOpenedGUI(UUID player) {
@@ -30,4 +31,5 @@ public class GUIController {
         openedGUI.clear();
     }
 
+    public abstract AbstractChestGUI<?> createChestGUI(IRow<C> row);
 }
