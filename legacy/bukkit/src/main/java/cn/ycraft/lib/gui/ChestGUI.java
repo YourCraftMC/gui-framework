@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class ChestGUI extends AbstractChestGUI<ChestInventory> {
-    public enum Rows {
+    public enum Rows implements IRow<ChestInventoryType> {
         ONE(1), TWO(2), THREE(3),
         FOUR(4), FIVE(5), SIX(6);
 
@@ -23,22 +23,24 @@ public class ChestGUI extends AbstractChestGUI<ChestInventory> {
             this.type = new ChestInventoryType(row);
         }
 
+        @Override
         public int row() {
             return this.row;
         }
 
+        @Override
         public ChestInventoryType type() {
             return this.type;
         }
 
     }
 
-    private final @NotNull GUIController controller;
+    private final @NotNull LegacyGUIController controller;
 
     private InventoryListener listener = null;
 
-    public ChestGUI(@NotNull GUIController controller, @NotNull Rows type) {
-        super(type.type.create());
+    public ChestGUI(@NotNull LegacyGUIController controller, @NotNull IRow<ChestInventoryType> type) {
+        super(type.type().create());
         this.controller = controller;
     }
 
